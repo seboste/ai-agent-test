@@ -54,6 +54,17 @@ type JobSchedulerUpdate struct {
 	Status          JobStatus `json:"status"`
 }
 
+type JobStatus string
+
+const (
+	JobStatusQueued    JobStatus = "queued"
+	JobStatusScheduled JobStatus = "scheduled"
+	JobStatusRunning   JobStatus = "running"
+	JobStatusCompleted JobStatus = "completed"
+	JobStatusFailed    JobStatus = "failed"
+	JobStatusCancelled JobStatus = "cancelled"
+)
+
 type JobWorkerDaemonUpdate struct {
 	Status       JobStatus `json:"status"`
 	Result       string    `json:"result"`
