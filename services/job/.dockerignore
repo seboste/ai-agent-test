@@ -1,0 +1,23 @@
+# Ignore build artifacts
+job
+
+# Ignore version control
+.git
+.gitignore
+
+# Ignore test files
+*_test.go
+
+# Ignore documentation
+*.md
+README*
+
+# Ignore IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Ignore temporary files
+*.tmp
+.DS_Store
