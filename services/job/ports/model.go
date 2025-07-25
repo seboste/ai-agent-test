@@ -17,7 +17,7 @@ type Job struct {
 	CreatedAt       time.Time              `json:"createdAt"`
 	UpdatedAt       time.Time              `json:"updatedAt"`
 	Result          string                 `json:"result"`
-	WorkerID        uuid.UUID              `json:"workerId"`
+	WorkerID        *uuid.UUID             `json:"workerId"`
 	ErrorMessage    string                 `json:"errorMessage"`
 	ComputeZone     string                 `json:"computeZone"`
 	CarbonIntensity int                    `json:"carbonIntensity"`
