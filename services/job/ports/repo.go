@@ -1,6 +1,6 @@
 package ports
 
-import "services/job/model"
+import "github.com/seboste/ai-agent-test/services/job/model"
 
 // Repository is an interface for a database that stores and retrieves jobs.
 type Repository interface {

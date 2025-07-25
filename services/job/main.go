@@ -27,6 +27,9 @@ func main() {
 	service = core.NewService()
 	handler := handler_http.NewHandler(service)
 
+	// Register the API handler
+	http.Handle("/", handler)
+
 	// Simple health check endpoint
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)

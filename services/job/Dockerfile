@@ -4,11 +4,11 @@ FROM golang:1.21-alpine AS builder
 # Set the working directory
 WORKDIR /app
 
-# Copy source code
+# Copy source code including vendor directory
 COPY . .
 
-# Build the binary
-RUN CGO_ENABLED=0 GOOS=linux go build -a -installsuffix cgo -o job main.go
+# Build the binary using vendor directory
+RUN CGO_ENABLED=0 GOOS=linux go build -mod=vendor -a -installsuffix cgo -o job main.go
 
 # Runtime stage - using scratch for minimal image
 FROM scratch
