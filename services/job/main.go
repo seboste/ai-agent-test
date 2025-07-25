@@ -7,6 +7,10 @@ import (
 	"os"
 	"os/signal"
 	"syscall"
+ 
+	handler_http "github.com/seboste/ai-agent-test/services/job/adapters/handler-http"
+	"github.com/seboste/ai-agent-test/services/job/core"
+	"github.com/seboste/ai-agent-test/services/job/ports"
 )
 
 func main() {
@@ -18,6 +22,10 @@ func main() {
 
 	// Create HTTP server
 	srv := &http.Server{Addr: ":" + port}
+  
+  var service ports.API
+	service = core.NewService()
+	handler := handler_http.NewHandler(service)
 
 	// Simple health check endpoint
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
@@ -25,21 +33,7 @@ func main() {
 		w.Write([]byte("OK"))
 	})
 
-	// Placeholder for jobs endpoints - to be implemented with proper handlers
-	http.HandleFunc("/jobs", func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Content-Type", "application/json")
-		switch r.Method {
-		case http.MethodGet:
-			w.WriteHeader(http.StatusOK)
-			w.Write([]byte(`[]`))
-		case http.MethodPost:
-			w.WriteHeader(http.StatusNotImplemented)
-			w.Write([]byte(`{"error": "Not implemented"}`))
-		default:
-			w.WriteHeader(http.StatusMethodNotAllowed)
-			w.Write([]byte(`{"error": "Method not allowed"}`))
-		}
-	})
+	
 
 	// Handle graceful shutdown
 	go func() {
