@@ -51,11 +51,11 @@ type JobSchedulerUpdate struct {
 	ComputeZone     string    `json:"computeZone"`
 	CarbonIntensity int       `json:"carbonIntensity"`
 	CarbonSavings   int       `json:"carbonSavings"`
-	Status          string    `json:"status"`
+	Status          JobStatus `json:"status"`
 }
 
 type JobWorkerDaemonUpdate struct {
-	Status       string `json:"status"`
-	Result       string `json:"result"`
-	ErrorMessage string `json:"errorMessage"`
+	Status       JobStatus `json:"status"`
+	Result       string    `json:"result"`
+	ErrorMessage string    `json:"errorMessage"`
 }
