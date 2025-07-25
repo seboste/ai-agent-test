@@ -1,0 +1,106 @@
+openapi: 3.0.3
+info:
+  title: Carbon Intensity API
+  description: |
+    API for retrieving real-time carbon intensity data by electricity zone.
+    
+    - All endpoints require a valid JWT Bearer token.
+    - The `/carbon-intensity/zones` endpoint returns a list of configured zones.
+    - Each zone code and zone name is unique in the response.
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080
+    description: Local development server
+
+paths:
+  /carbon-intensity/{zone}:
+    get:
+      summary: Get carbon intensity data by zone
+      security:
+        - BearerAuth: []
+      tags:
+        - Carbon Intensity
+      parameters:
+        - name: zone
+          in: path
+          required: true
+          schema:
+            type: string
+          description: The zone code (e.g., DE, FR, US-NY-NYIS)
+      responses:
+        "200":
+          description: Carbon intensity data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CarbonIntensityData"
+        "401":
+          description: Unauthorized – JWT token is missing or invalid
+        "404":
+          description: Zone not found
+        "500":
+          description: Internal server error
+
+  /carbon-intensity/zones:
+    get:
+      summary: Get list of available zones
+      security:
+        - BearerAuth: []
+      tags:
+        - Carbon Intensity
+      responses:
+        "200":
+          description: List of available zones
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  zones:
+                    type: array
+                    description: Array of zones with unique codes and names.
+                    items:
+                      $ref: "#/components/schemas/Zone"
+        "401":
+          description: Unauthorized – JWT token is missing or invalid
+        "500":
+          description: Internal server error
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    CarbonIntensityData:
+      type: object
+      required:
+        - zone
+        - carbonIntensity
+      properties:
+        zone:
+          type: string
+          description: The electricity zone identifier.
+          example: FR
+        carbonIntensity:
+          type: number
+          format: float
+          description: Current carbon intensity value.
+          example: 135.2
+
+    Zone:
+      type: object
+      required:
+        - code
+        - name
+      properties:
+        code:
+          type: string
+          description: Unique zone identifier
+          example: DE
+        name:
+          type: string
+          description: Unique descriptive name of the zone
+          example: Germany
